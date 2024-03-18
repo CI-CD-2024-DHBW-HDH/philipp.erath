@@ -1,4 +1,4 @@
-name: Continuous Delivery pipeline
+name: Continuous Deployment pipeline
 run-name: ${{ github.actor }} is pushing on klausur-bearbeitung-branch
 on:
   push:
@@ -24,25 +24,17 @@ jobs:
       - name: Build
         run: npm run build
 
-  Build-and-Deliver-github-package:
+  Build-and-Deploy-github-page:
     needs: Test-and-Build
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps: 
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          tags: "ghcr.io/ci-cd-2024-dhbw-hdh/philipp.erath:latest"
+          folder: dist
