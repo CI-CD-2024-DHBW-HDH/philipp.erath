@@ -22,6 +22,10 @@ Ingress Controller: Über ein Ingress Controller kann über eine einzige IP-Adre
 
 (Cloud) Load Balancer: Cloud-Anbieter haben die Möglichkeit über einen Service vom Typ Load Balancer einen Load Balancer zur Verfügung zu stellen, über den dann auch die Kommunikation mit extern geregelt werden kann.
 
+### Zusatzaufgabe:
+#### Was ist ein Kubernetes Job?
+Ein Job erstellt einen oder mehrere Pods und wiederholt die Ausführung der Pods, bis eine bestimmte Anzahl von ihnen erfolgreich beendet wurde. Während die Pods erfolgreich abgeschlossen werden, verfolgt der Job die erfolgreichen Abschlüsse. Wenn eine bestimmte Anzahl von erfolgreichen Abschlüssen erreicht ist, ist die Aufgabe (d. h. der Job) abgeschlossen. Das Löschen eines Jobs bereinigt die von ihm erstellten Pods. Das Anhalten eines Jobs löscht seine aktiven Pods, bis der Job wieder fortgesetzt wird.
+
 #### 
 
 ## Setup
