@@ -23,7 +23,7 @@ module.exports = {
         files: ['*.svelte'],
         processor: 'svelte3/svelte3',
         rules: {
-          "@typescript-eslint/no-unsafe-argument": "off"
+          "@typescript-eslint/no-unsafe-argument": "off",
         }
       }
     ],
@@ -38,6 +38,8 @@ module.exports = {
       "unused-imports/no-unused-vars": [
         "warn",
         { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
-      ]
+      ],
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
     }
   }

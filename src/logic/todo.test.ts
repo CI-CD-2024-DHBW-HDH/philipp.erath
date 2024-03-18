@@ -1,4 +1,4 @@
-import { validateTodo, TodoItem } from './todo';
+import { validateTodo } from './todo';
 
 describe("validateTodo", () => {
     it("longer than 255 characters", () => {
