@@ -1,38 +1,38 @@
 <script lang="ts">
-  import TodoList from "./lib/TodoList.svelte";
+  import TodoList from './lib/TodoList.svelte'
   import {
     formatTodo,
     generateID,
     TodoItem,
     todoList,
     validateTodo,
-  } from "./logic/todo";
+  } from './logic/todo'
 
-  let todos: TodoItem[];
+  let todos: TodoItem[]
 
   todoList.subscribe((value) => {
-    todos = value;
-  });
+    todos = value
+  })
 
   function submitHandler(event: SubmitEvent) {
-    const data = new FormData(event.target as HTMLFormElement);
+    const data = new FormData(event.target as HTMLFormElement)
     for (let field of data) {
-      const [, value] = field;
+      const [, value] = field
       addTodo({
         id: generateID(),
         value: value.toString(),
         done: false,
-      });
-      ((event.target as HTMLFormElement)[0] as HTMLInputElement).value = "";
-      return; // we are only interested in the first value.
+      })
+      ;((event.target as HTMLFormElement)[0] as HTMLInputElement).value = ''
+      return // we are only interested in the first value.
       // there will probably never be a second value, by why risk it
     }
   }
 
   function addTodo(todo: TodoItem) {
     if (validateTodo(todo, todos)) {
-      todos.push(formatTodo(todo));
-      todos = todos;
+      todos.push(formatTodo(todo))
+      todos = todos
     }
   }
 </script>
@@ -43,7 +43,7 @@
   <progress
     max={todos.length}
     value={todos.filter((todo) => {
-      return todo.done === true;
+      return todo.done === true
     }).length}
   />
   <form on:submit|preventDefault={submitHandler}>

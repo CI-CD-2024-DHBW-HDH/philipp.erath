@@ -1,30 +1,30 @@
 <script lang="ts">
-  import { generateColor, todoList, type TodoItem } from "../logic/todo";
+  import { generateColor, todoList, type TodoItem } from '../logic/todo'
 
-  export let todos: TodoItem[];
-  let filteredTodos: TodoItem[];
+  export let todos: TodoItem[]
+  let filteredTodos: TodoItem[]
 
   $: filteredTodos = todos.filter((todo) => {
-    return todo.value.toLowerCase().includes(searchString.toLowerCase());
-  });
+    return todo.value.toLowerCase().includes(searchString.toLowerCase())
+  })
 
-  let searchString = "";
+  let searchString = ''
 
   function deleteHandler(id: string) {
     todoList.update((value) => {
       return value.filter((todo) => {
-        return todo.id !== id;
-      });
-    });
+        return todo.id !== id
+      })
+    })
   }
 
   function doneHandler(id: string) {
     todoList.update((value) => {
       for (let todo of value) {
-        if (todo.id === id) todo.done = true;
+        if (todo.id === id) todo.done = true
       }
-      return value;
-    });
+      return value
+    })
   }
 </script>
 
