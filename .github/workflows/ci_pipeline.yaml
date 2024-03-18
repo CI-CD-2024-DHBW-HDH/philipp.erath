@@ -1,5 +1,5 @@
 name: CI pipeline
-run-name: ${{ github.actor }} is pushing on main-branch
+run-name: ${{ github.actor }} is pushing on klausur-bearbeitung-branch
 on:
   push:
     branches:
