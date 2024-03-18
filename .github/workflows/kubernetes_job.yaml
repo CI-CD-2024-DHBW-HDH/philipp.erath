@@ -1,0 +1,69 @@
+name: Kubernetes job
+run-name: ${{ github.actor }} is pushing on klausur-bearbeitung-branch
+on:
+  push:
+    branches:
+      - klausur-bearbeitung
+      
+jobs:
+
+  Build-and-Deliver-github-package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps: 
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: "ghcr.io/ci-cd-2024-dhbw-hdh/philipp.erath:latest"
+         
+  
+  Deploy-Kubernetes:
+    needs: Build-and-Deliver-github-package
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+      packages: read
+    steps:
+
+      - uses: azure/setup-kubectl@v2.0
+
+      - uses: Azure/k8s-set-context@v2
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Create Namespace
+        run: kubectl create namespace philipp-erath --dry-run=client -o yaml | kubectl apply -f -
+          
+      - name: Create Secret for kubernetes
+        uses: Azure/k8s-create-secret@v1.1
+        with:
+          namespace: philipp-erath
+          container-registry-url: ghcr.io
+          container-registry-username: ${{ github.actor }}
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }} #sollte mit diesem automatisch erzeugten möglich sein
+          secret-name: regcred
+
+      - name: Apply deployment and service
+        uses: Azure/k8s-deploy@v4
+        with:
+          namespace: philipp-erath
+          manifests: |
+            kubernetes/deployment.yaml
+            kubernetes/service.yaml
+          imagepullsecrets: |
+            regcred
