@@ -1,0 +1,40 @@
+name: Continuous Delivery pipeline
+run-name: ${{ github.actor }} is pushing on klausur-bearbeitung-branch
+on:
+  push:
+    branches:
+      - klausur-bearbeitung
+
+jobs:
+  Test-and-Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: npm i
+      - name: Svelte check
+        run: npm run check
+      - name: Prettier check
+        run: npm run format:check
+      - name: Eslint check
+        run: npm run lint
+      - name: Run Tests
+        run: npm run test
+      - name: Build
+        run: npm run build
+
+  Build-and-deploy-package:
+    needs: Test-and-Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
