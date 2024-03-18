@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klausur-todo-deployment
+  labels:
+    app: klausur-todo
+  namespace: philipp-erath
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: klausur-todo
+  template:
+    metadata:
+      labels:
+        app: klausur-todo
+    spec:
+      containers:
+      - name: klausur-todo
+        image: ghcr.io/ci-cd-2024-dhbw-hdh/philipp.erath:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
+      securityContext: {}

@@ -1,5 +1,10 @@
 # Klausur 2023 DHBW HDH
 
+## Klausurbearbeitung
+
+### Aufgabe 4:
+Vor der Anwendung muss der Namespace 'philipp-erath' erstellt werden und ein Secret 'regcred'
+
 ## Setup
 
 ### Klone dieses Repository
