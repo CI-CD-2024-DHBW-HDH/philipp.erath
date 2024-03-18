@@ -5,6 +5,25 @@
 ### Aufgabe 4:
 Vor der Anwendung muss der Namespace 'philipp-erath' erstellt werden und ein Secret 'regcred'
 
+### Aufgabe 5: 
+#### Kubernetes Deployment vs. Kubernetes Pod
+Kubernetes Pods entstehen durch Kubernetes Deployments, die diese sozusagen definieren. Deployments sind also eine Art Blaupause. Eine passende Analogie wäre etwa das Verhältnis zwischen Image und Container aus Docker.
+Deployments lassen sich einfach skalieren und Verwalten. Durch das Konzept der Replica Sets kann auch ein einfacher RollBack stattfinden. Pods haben diese Möglichkeiten so nicht.
+
+#### Wofür ist ein Kubernetes Service gut
+Durch Services können verschiedene Netzwerkzugriffe (sowohl intern als auch extern) auf Pods geregelt und gesteuert werden. Der Service selbst ist eine Abstraktionsebene. Der Anwender muss hierzu nicht wissen, auf welchen exakten Nodes Pods laufen. Dieses Routing wird über Servives geregelt. Sie dienen darüber hinaus als ein Level 4 (TCP) Load Balancer. Dadurch dass sich Pods in Kubernetes dynamisch ändern können, ist ein Service ein wichtiger Mechanismus für die Skalierbarkeit von Clustern.
+
+#### Möglichkeiten, ein Cluster von außen zu erreichen
+Im Seminar haben wir anfangs die Möglichkeit von einem einfachen Port-Forwarding kennengelernt. Dies wird allerdings nur für Entwicklungszwecke verwendet.
+
+Nodeport Service: Über einen Nodeport-Service kann über den definierten Nodeport einer jeden Node auf den Service zugegriffen werden, der dann an die passenden Nodes und somit dem korrekten Pod weiterleitet.
+
+Ingress Controller: Über ein Ingress Controller kann über eine einzige IP-Adresse von außen auf das Cluster zugegriffen werden.
+
+(Cloud) Load Balancer: Cloud-Anbieter haben die Möglichkeit über einen Service vom Typ Load Balancer einen Load Balancer zur Verfügung zu stellen, über den dann auch die Kommunikation mit extern geregelt werden kann.
+
+#### 
+
 ## Setup
 
 ### Klone dieses Repository
